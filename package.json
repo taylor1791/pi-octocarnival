@@ -1,0 +1,16 @@
+{
+  "name": "blink-led",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "raspi": "^3.0.4",
+    "raspi-gpio": "^2.3.1",
+    "restify": "^4.3.0"
+  }
+}
