@@ -1,6 +1,7 @@
 const restify = require('restify');
 const raspi = require('raspi');
 const gpio = require('raspi-gpio');
+const {writeFile} = require('fs');
 
 const config = require('./config.json');
 const server = restify.createServer();
@@ -57,6 +58,10 @@ server.put('/relay/:id', function(req, res) {
 
   methods[req.body.state](relays[relayId]);
   res.send(200);
+
+  writeFile('./config.json', JSON.stringify(config), {}, function(err) {
+    if (err) console.error(err);
+  });
 });
  
 server.listen(process.env.PORT, function() {
