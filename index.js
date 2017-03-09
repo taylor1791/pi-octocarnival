@@ -70,11 +70,11 @@ server.listen(process.env.PORT || 8000, function() {
 
 
 // Encapsulation of a low-trigger relay
-function createRelay(pinNumber) {
+function createRelay(pinNumber, index) {
   const pin = `P1-${pinNumber}`;
   const output = new gpio.DigitalOutput(pin);
-  output.write(gpio.HIGH);
-  return {pin, output, state: 0};
+  methods[config.status[index]]({output, pin});
+  return {pin, output, state: config.status[index], index};
 }
 
 function destroyRelay(relay) {
@@ -84,6 +84,7 @@ function destroyRelay(relay) {
 function turnRelayOff(relay) {
   console.log(`Setting relay ${relay.pin} to 0`);
   relay.output.write(gpio.HIGH);
+  config.status[relay.index] = 0;
   relay.state = 0;
   return relay;
 }
@@ -91,6 +92,7 @@ function turnRelayOff(relay) {
 function turnRelayOn(relay) {
   console.log(`Setting relay ${relay.pin} to 1`);
   relay.output.write(gpio.LOW);
+  config.status[relay.index] = 1;
   relay.state = 1;
   return relay;
 }
