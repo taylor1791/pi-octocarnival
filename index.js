@@ -64,7 +64,7 @@ server.put('/relay/:id', function(req, res) {
   });
 });
  
-server.listen(process.env.PORT, function() {
+server.listen(process.env.PORT || 8000, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 
