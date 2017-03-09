@@ -6,11 +6,23 @@ const config = require('./config.json');
 const server = restify.createServer();
 
 let relays;
+let activity;
 
 server.use(restify.bodyParser({maxBodySize: 1000}));
+server.use(function(req, res, next) {
+  next();
+  activity.write(gpio.HIGH);
+  setTimeout(function() {
+    activity.write(gpio.LOW);
+  }, 75);
+  return;
+});
 
 raspi.init(function() {
   relays = config.relays.map(createRelay);
+  activity = new gpio.DigitalOutput(`P1-${config.activity}`);
+  activity.write(gpio.LOW);
+  console.log(`Starting up at ${new Date()}...`);
 });
 
 process.on('SIGINT', () => {
